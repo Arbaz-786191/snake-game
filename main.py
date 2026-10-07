@@ -1,3 +1,4 @@
+import asyncio
 import pygame
 import random
 import sys
@@ -1260,7 +1261,7 @@ def draw_menu_button(
 # START MENU
 # =========================================================
 
-def show_start_menu():
+async def show_start_menu():
 
     selected = 0
 
@@ -1473,13 +1474,14 @@ def show_start_menu():
         pygame.display.flip()
 
         clock.tick(60)
+        await asyncio.sleep(0)
 
 
 # =========================================================
 # GAME
 # =========================================================
 
-def play_game(speed):
+async def play_game(speed):
 
     snake, direction, food, fruit_index, score = reset_game()
 
@@ -1943,14 +1945,22 @@ def play_game(speed):
         pygame.display.flip()
 
         clock.tick(speed)
+        await asyncio.sleep(0)
 
 
 # =========================================================
 # MAIN
 # =========================================================
 
-while True:
+async def main():
 
-    speed = show_start_menu()
+    while True:
 
-    play_game(speed)
+        speed = await show_start_menu()
+
+        await play_game(speed)
+
+
+if __name__ == "__main__":
+
+    asyncio.run(main())
